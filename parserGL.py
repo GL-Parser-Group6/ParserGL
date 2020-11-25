@@ -12,12 +12,23 @@ def readLines(fileName):
     with open(fileName, "r", encoding="utf8", errors='ignore') as file:
         return [i.replace("\n", "") for i in file.readlines()]
 
-def parseurAbstract(txt):
-    x = re.split("Abstract|Introduction", txt) 
-    if len(x) == 1:
-        return ""
-    else:
-        return x[1]
+def parseurAbstract(List):
+
+    containAbstract = False
+    abstract = ""
+
+    for x in List:
+        if(containAbstract):
+            if(x == '1'):
+                break
+            abstract += x
+        if(re.search('Abstract|In the article',x)!=None):
+            containAbstract = True
+            s = re.split('Abstract|In the article',x)
+            if(s[1]!=None):
+                abstract += s[1]
+                
+    return abstract
 
 def recup_titre(liste):
     return liste[0]
@@ -33,5 +44,5 @@ if __name__ == "__main__":
             if os.path.isfile(path) and f.split(".")[-1] == "txt":
                 lines = readLines(path)
                 print("Traitement :", f)
-                function_ecriture([".".join(f.split(".")[:-1]), recup_titre(lines), parseurAbstract("\n".join(lines))], os.path.join(directory, "output"))
+                function_ecriture([".".join(f.split(".")[:-1]), recup_titre(lines), parseurAbstract(lines)], os.path.join(directory, "output"))
 
