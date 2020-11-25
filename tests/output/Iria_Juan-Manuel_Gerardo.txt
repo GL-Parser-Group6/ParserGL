@@ -1,17 +1,3 @@
 Iria_Juan-Manuel_Gerardo
 On the Development of the RST Spanish Treebank
-
-In this article we present the RST Spanish
-Treebank, the first corpus annotated with
-rhetorical relations for this language. We
-describe the characteristics of the corpus,
-the annotation criteria, the annotation
-procedure, the inter-annotator agreement,
-and other related aspects. Moreover, we
-show the interface that we have developed
-to carry out searches over the corpus’
-annotated texts.
-
-1
-
-
+In this article we present the RST SpanishTreebank, the first corpus annotated withrhetorical relations for this language. Wedescribe the characteristics of the corpus,the annotation criteria, the annotationprocedure, the inter-annotator agreement,and other related aspects. Moreover, weshow the interface that we have developedto carry out searches over the corpus’annotated texts.
