@@ -2,6 +2,7 @@ import sys
 import os
 import re
 import xml.etree.cElementTree as ET
+import shutil
 
 def function_ecriture(L,add):
     """
@@ -29,12 +30,34 @@ def readLines(fileName):
     """
     with open(fileName, "r", encoding="utf8", errors='ignore') as file:
         return [i.replace("\n", "") for i in file.readlines()]
+        
+def recup_titre(liste):
+    """
+        Récupère le titre de l'article
+    """
+    global debut_it
+    debut_it = 0
+    is_in_title = False
+    title = ""
+    for i in liste:
+        if is_in_title:
+            if len(i) == 0 or (len(i) == 1 and i[0].islower()) or "," in i or "∗" in i or "\\" in i or re.search("[A-Z]\.", i) != None:
+                if len(i) == 0 and 2 <= len(title.split("\n")[-2].split(" ")) <= 3:
+                    title = "\n".join(title.split("\n")[:-2])+"\n"
+                break
+            title += i + "\n"
+        if len(i) > 0 and i[0].isupper() and title == "" and i.upper() != "LETTER" and not i.startswith("Communicated by"):
+            is_in_title = True
+            title += i + "\n"
+        debut_it += 1
+    return title[:-1]
 
 def parseurAbstract(List):
     """
         Récupère le résumé de l'article
     """
-
+    global fin_it
+    fin_it = -1
     containAbstract = False
     abstract = ""
 
@@ -43,13 +66,23 @@ def parseurAbstract(List):
             if x == '1' or x.startswith('Introduction'):
                 break
             abstract += x
+        else:
+            fin_it += 1
         if(re.search('Abstract|In the article',x)!=None):
             containAbstract = True
             s = re.split('Abstract|In the article',x)
             if(s[1]!=None):
                 abstract += s[1]
-                
     return abstract
+
+
+def recup_auteur(liste):
+    final_String = ''
+    recup_titre(liste)
+    parseurAbstract(liste)
+    for i in range(debut_it, fin_it):
+        final_String += liste[i]
+    return final_String
 
 def references(liste):
     biblio = ""
