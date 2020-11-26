@@ -2,24 +2,33 @@ import sys
 import os
 import re
 
-def function_ecriture(L,add):  # prend en arg avec une liste avec L[0]=nom L[1]=titre ...
+def function_ecriture(L,add):
+    """
+        Ecrit la sortie du parseur
+    """
     addf=os.path.join(add, L[0]+".txt")
     with open(addf,"w", encoding="utf8", errors="ignore") as file :
         for i in L:
             file.write(i+"\n")
 
 def readLines(fileName):
+    """
+        Lit un fichier en retournant une liste de ses lignes
+    """
     with open(fileName, "r", encoding="utf8", errors='ignore') as file:
         return [i.replace("\n", "") for i in file.readlines()]
 
 def parseurAbstract(List):
+    """
+        Récupère le résumé de l'article
+    """
 
     containAbstract = False
     abstract = ""
 
     for x in List:
         if(containAbstract):
-            if(x == '1'):
+            if x == '1' or x.startswith('Introduction'):
                 break
             abstract += x
         if(re.search('Abstract|In the article',x)!=None):
@@ -31,7 +40,20 @@ def parseurAbstract(List):
     return abstract
 
 def recup_titre(liste):
-    return liste[0]
+    """
+        Récupère le titre de l'article
+    """
+    is_in_title = False
+    title = ""
+    for i in liste:
+        if is_in_title:
+            if len(i) == 0 or (len(i) == 1 and i[0].islower()) or "," in i or "∗" in i or "\\" in i :
+                break
+            title += i + "\n"
+        if len(i) > 0 and i[0].isupper() and title == "":
+            is_in_title = True
+            title += i + "\n"
+    return title[:-1]
 
 if __name__ == "__main__":
     if len(sys.argv) == 1:
@@ -45,4 +67,3 @@ if __name__ == "__main__":
                 lines = readLines(path)
                 print("Traitement :", f)
                 function_ecriture([".".join(f.split(".")[:-1]), recup_titre(lines), parseurAbstract(lines)], os.path.join(directory, "output"))
-
