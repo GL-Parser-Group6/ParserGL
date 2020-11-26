@@ -1,6 +1,7 @@
 import sys
 import os
 import re
+import xml.etree.cElementTree as ET
 
 def function_ecriture(L,add):
     """
@@ -10,6 +11,17 @@ def function_ecriture(L,add):
     with open(addf,"w", encoding="utf8", errors="ignore") as file :
         for i in L:
             file.write(i+"\n")
+
+def function_exportXML(L,add):
+    addf=os.path.join(add, L[0]+".xml")
+    article = ET.Element("article")
+    ET.SubElement(article, "preamble").text = L[0]
+    ET.SubElement(article, "titre").text = L[1]
+    ET.SubElement(article, "auteur").text = L[2]
+    ET.SubElement(article, "abstract").text = L[3]
+    ET.SubElement(article, "biblio").text = L[4]
+    export = ET.ElementTree(article)
+    export.write(addf, encoding="utf8")
 
 def readLines(fileName):
     """
@@ -74,8 +86,9 @@ if __name__ == "__main__":
                 path = os.path.join(directory, f)
                 if os.path.isfile(path) and f.split(".")[-1] == "txt":
                     lines = readLines(path)
-                    print("Traitement :", f)
+                    print("Traitement :",f)
+                    content = [".".join(f.split(".")[:-1]), recup_titre(lines), recup_auteur(lines), parseurAbstract(lines), references(lines)]
                     if type_export == "-t":
-                        function_ecriture([".".join(f.split(".")[:-1]), recup_titre(lines), parseurAbstract(lines)], os.path.join(directory, "output"))
+                        function_ecriture(content, os.path.join(directory, "output"))
                     else:
-                        function_ecriture([".".join(f.split(".")[:-1]), recup_titre(lines), parseurAbstract(lines)], os.path.join(directory, "output"))
+                        function_exportXML(content, os.path.join(directory, "output"))
