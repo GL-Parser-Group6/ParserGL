@@ -51,24 +51,19 @@ def parseurAbstract(List):
                 
     return abstract
 
-def recup_titre(liste):
-    """
-        Récupère le titre de l'article
-    """
-    is_in_title = False
-    title = ""
+def references(liste):
+    biblio = ""
+    inBiblio = False
+    
     for i in liste:
-        if is_in_title:
-            print(re.search("[A-Z]\.", i))
-            if len(i) == 0 or (len(i) == 1 and i[0].islower()) or "," in i or "∗" in i or "\\" in i or re.search("[A-Z]\.", i) != None:
-                if len(i) == 0 and 2 <= len(title.split("\n")[-2].split(" ")) <= 3:
-                    title = "\n".join(title.split("\n")[:-2])+"\n"
-                break
-            title += i + "\n"
-        if len(i) > 0 and i[0].isupper() and title == "" and i.upper() != "LETTER" and not i.startswith("Communicated by"):
-            is_in_title = True
-            title += i + "\n"
-    return title[:-1]
+        if inBiblio and len(i) > 3:
+            biblio += i
+        if("References" in i or "REFERENCES" in i or "R EFERENCES" in i and len(i) <=11):
+            if len(i) > 3:
+                biblio += i
+            inBiblio = True
+                
+    return biblio
 
 if __name__ == "__main__":
     if len(sys.argv) <= 2:
