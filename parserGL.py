@@ -59,14 +59,21 @@ def recup_titre(liste):
     return title[:-1]
 
 if __name__ == "__main__":
-    if len(sys.argv) == 1:
-        print("Usage : python "+sys.argv[0]+" <directory>")
+    if len(sys.argv) <= 2:
+        print("Usage : python "+sys.argv[0]+" <-t|-x> <directory>")
     else:
-        directory = sys.argv[1]
-        os.makedirs(os.path.join(directory, "output"), exist_ok=True)
-        for f in os.listdir(directory):
-            path = os.path.join(directory, f)
-            if os.path.isfile(path) and f.split(".")[-1] == "txt":
-                lines = readLines(path)
-                print("Traitement :", f)
-                function_ecriture([".".join(f.split(".")[:-1]), recup_titre(lines), parseurAbstract(lines)], os.path.join(directory, "output"))
+        type_export = sys.argv[1]
+        directory = sys.argv[2]
+        if type_export != "-t" and type_export != "-x":
+            print("Usage : python "+sys.argv[0]+" <-t|-x> <directory>")
+        else:
+            os.makedirs(os.path.join(directory, "output"), exist_ok=True)
+            for f in os.listdir(directory):
+                path = os.path.join(directory, f)
+                if os.path.isfile(path) and f.split(".")[-1] == "txt":
+                    lines = readLines(path)
+                    print("Traitement :", f)
+                    if type_export == "-t":
+                        function_ecriture([".".join(f.split(".")[:-1]), recup_titre(lines), parseurAbstract(lines)], os.path.join(directory, "output"))
+                    else:
+                        function_ecriture([".".join(f.split(".")[:-1]), recup_titre(lines), parseurAbstract(lines)], os.path.join(directory, "output"))
