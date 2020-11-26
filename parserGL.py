@@ -67,7 +67,9 @@ if __name__ == "__main__":
         if type_export != "-t" and type_export != "-x":
             print("Usage : python "+sys.argv[0]+" <-t|-x> <directory>")
         else:
-            os.makedirs(os.path.join(directory, "output"), exist_ok=True)
+            if os.path.exists(os.path.join(directory, "output")):
+                shutil.rmtree(os.path.join(directory, "output"))
+            os.makedirs(os.path.join(directory, "output"))
             for f in os.listdir(directory):
                 path = os.path.join(directory, f)
                 if os.path.isfile(path) and f.split(".")[-1] == "txt":
