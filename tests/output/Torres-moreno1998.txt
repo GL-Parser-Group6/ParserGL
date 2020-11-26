@@ -1,3 +1,4 @@
 Torres-moreno1998
-LETTER
+Efficient Adaptive Learning for Classification Tasks with
+Binary Units
 
