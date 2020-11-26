@@ -47,12 +47,13 @@ def recup_titre(liste):
     title = ""
     for i in liste:
         if is_in_title:
-            if len(i) == 0 or (len(i) == 1 and i[0].islower()) or "," in i or "∗" in i or "\\" in i :
+            print(re.search("[A-Z]\.", i))
+            if len(i) == 0 or (len(i) == 1 and i[0].islower()) or "," in i or "∗" in i or "\\" in i or re.search("[A-Z]\.", i) != None:
                 if len(i) == 0 and 2 <= len(title.split("\n")[-2].split(" ")) <= 3:
                     title = "\n".join(title.split("\n")[:-2])+"\n"
                 break
             title += i + "\n"
-        if len(i) > 0 and i[0].isupper() and title == "":
+        if len(i) > 0 and i[0].isupper() and title == "" and i.upper() != "LETTER" and not i.startswith("Communicated by"):
             is_in_title = True
             title += i + "\n"
     return title[:-1]
