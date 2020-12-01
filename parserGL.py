@@ -14,6 +14,9 @@ def function_ecriture(L,add):
             file.write(i+"\n")
 
 def function_exportXML(L,add):
+    """
+        Export en XML
+    """
     addf=os.path.join(add, L[0]+".xml")
     article = ET.Element("article")
     ET.SubElement(article, "preamble").text = L[0]
@@ -65,38 +68,44 @@ def parseurAbstract(List):
         if(containAbstract):
             if x == '1' or x.startswith('Introduction'):
                 break
-            abstract += x
+            abstract += x + "\n"
         else:
             fin_it += 1
         if(re.search('Abstract|In the article',x)!=None):
             containAbstract = True
             s = re.split('Abstract|In the article',x)
             if(s[1]!=None):
-                abstract += s[1]
-    return abstract
+                abstract += s[1] + "\n"
+    return abstract[:-1]
 
 
 def recup_auteur(liste):
+    """
+        Récupère les auteurs et leur adresse de l'article
+    """
     final_String = ''
     recup_titre(liste)
     parseurAbstract(liste)
     for i in range(debut_it, fin_it):
-        final_String += liste[i]
-    return final_String
+        final_String += liste[i] + "\n"
+    return final_String[:-1]
 
 def references(liste):
+    """
+        Récupère la bibliographie de l'article
+    """
     biblio = ""
     inBiblio = False
     
     for i in liste:
         if inBiblio and len(i) > 3:
-            biblio += i
+            biblio += i + "\n"
         if("References" in i or "REFERENCES" in i or "R EFERENCES" in i and len(i) <=11):
             if len(i) > 3:
-                biblio += i
+                biblio += i + "\n"
             inBiblio = True
                 
-    return biblio
+    return biblio[:-1]
 
 if __name__ == "__main__":
     if len(sys.argv) <= 2:
