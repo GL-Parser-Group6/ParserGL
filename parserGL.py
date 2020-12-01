@@ -122,10 +122,10 @@ def recup_discussion(liste):
             if (liste[i].startswith('Acknowledgments') or liste[i].startswith('References')):
                 break
             else: 
-                discussion+=liste[i]
+                discussion+=liste[i] + "\n"
         if(((liste[i-1]=="") and (i < len(liste) - 1 and liste[i+1]=="")) and ((liste[i].startswith('Discussion')) or (re.search('^\d*Discussion\w*',liste[i])!=None))):
             is_in_discussion=True
-    return discussion
+    return discussion[:-1]
 
 def conclusion(liste):
     conclu = ""
