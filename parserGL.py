@@ -23,7 +23,11 @@ def function_exportXML(L,add):
     ET.SubElement(article, "titre").text = L[1]
     ET.SubElement(article, "auteur").text = L[2]
     ET.SubElement(article, "abstract").text = L[3]
-    ET.SubElement(article, "biblio").text = L[4]
+    ET.SubElement(article, "introduction").text = L[4]
+    ET.SubElement(article, "corps").text = L[5]
+    ET.SubElement(article, "conclusion").text = L[6]
+    ET.SubElement(article, "discussion").text = L[7]
+    ET.SubElement(article, "biblio").text = L[8]
     export = ET.ElementTree(article)
     export.write(addf, encoding="utf8")
 
@@ -124,7 +128,7 @@ if __name__ == "__main__":
                 if os.path.isfile(path) and f.split(".")[-1] == "txt":
                     lines = readLines(path)
                     print("Traitement :",f)
-                    content = [".".join(f.split(".")[:-1]), recup_titre(lines), recup_auteur(lines), parseurAbstract(lines), references(lines)]
+                    content = [".".join(f.split(".")[:-1]), recup_titre(lines), recup_auteur(lines), parseurAbstract(lines), "", "", "", "", references(lines)]
                     if type_export == "-t":
                         function_ecriture(content, os.path.join(directory, "output"))
                     else:
