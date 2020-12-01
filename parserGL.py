@@ -111,6 +111,26 @@ def references(liste):
                 
     return biblio[:-1]
 
+def menu(directory):
+    files = []
+    files_dir = os.listdir(directory)
+    while True:
+        print(" Fichiers :")
+        for i, f in enumerate(files_dir):
+            print(i+1,"-", f, ("- Selectionné" if f in files else ""))
+        print(i+2, "- Lancer le parser")
+        try:
+            choix = int(input("Choix : "))
+        except:
+            choix = -1
+        if choix == i+2:
+            return files
+        elif 0 < choix < i+2:
+            if files_dir[choix-1] in files:
+                files.remove(files_dir[choix-1])
+            else:
+                files.append(files_dir[choix-1])
+
 if __name__ == "__main__":
     if len(sys.argv) <= 2:
         print("Usage : python "+sys.argv[0]+" <-t|-x> <directory>")
@@ -123,7 +143,7 @@ if __name__ == "__main__":
             if os.path.exists(os.path.join(directory, "output")):
                 shutil.rmtree(os.path.join(directory, "output"))
             os.makedirs(os.path.join(directory, "output"))
-            for f in os.listdir(directory):
+            for f in menu(directory):
                 path = os.path.join(directory, f)
                 if os.path.isfile(path) and f.split(".")[-1] == "txt":
                     lines = readLines(path)
