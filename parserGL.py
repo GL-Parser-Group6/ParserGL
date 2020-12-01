@@ -115,7 +115,7 @@ def menu(directory):
     files = []
     files_dir = os.listdir(directory)
     while True:
-        print(" Fichiers :")
+        print("\nFichiers :")
         for i, f in enumerate(files_dir):
             print(i+1,"-", f, ("- Selectionné" if f in files else ""))
         print(i+2, "- Lancer le parser")
