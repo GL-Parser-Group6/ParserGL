@@ -54,7 +54,7 @@ documents (history). As the amount of
 data in history increases, non-redundancy
 is prioritized over query-relevance. We
 show that S MMR achieves promising results on the DUC 2007 update corpus.
-</abstract><biblio>References
+</abstract><introduction /><corps /><conclusion /><discussion /><biblio>References
 Ye, S., L. Qiu, T.S. Chua, and M.Y. Kan. 2005. NUS
 at DUC 2005: Understanding documents via concept links. In Document Understanding Conference
 (DUC).

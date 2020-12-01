@@ -21,7 +21,7 @@ is measured in a word similarity task, and the results are compared to the previ
 observe large improvements in accuracy at much lower computational cost, i.e. it
 takes less than a day to learn high quality word vectors from a 1.6 billion words
 data set. Furthermore, we show that these vectors provide state-of-the-art performance on our test set for measuring syntactic and semantic word similarities.
-</abstract><biblio>References
+</abstract><introduction /><corps /><conclusion /><discussion /><biblio>References
 [1] Y. Bengio, R. Ducharme, P. Vincent. A neural probabilistic language model. Journal of Machine Learning Research, 3:1137-1155, 2003.
 [2] Y. Bengio, Y. LeCun. Scaling learning algorithms towards AI. In: Large-Scale Kernel Machines, MIT Press, 2007.
 [3] T. Brants, A. C. Popat, P. Xu, F. J. Och, and J. Dean. Large language models in machine

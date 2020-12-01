@@ -15,7 +15,7 @@ extractive techniques. Some promising approaches that concentrate on specific
 details of the summarization problem are also discussed. Special attention is
 devoted to automatic evaluation of summarization systems, as future research
 on summarization is strongly dependent on progress in this area.
-</abstract><biblio>References
+</abstract><introduction /><corps /><conclusion /><discussion /><biblio>References
 Amari, S.-I. and Nagaoka, H. (2001). Methods of Information Geometry (Translations of Mathematical Monographs). Oxford University Press. [20]
 Aone, C., Okurowski, M. E., Gorlinsky, J., and Larsen, B. (1999). A trainable
 summarizer with knowledge acquired from robust nlp techniques. In Mani, I.

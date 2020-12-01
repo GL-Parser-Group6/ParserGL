@@ -12,7 +12,7 @@ and highly ambiguous word-lattices produced
 by NLP tools. MACAON is made of several native modules for common tasks such as a tokenization, a part-of-speech tagging or syntactic parsing, all communicating with each other
 through XML files . In addition, exchange protocols with external tools are easily definable.
 MACAON is a fast, modular and open tool, distributed under GNU Public License.
-</abstract><biblio>References
+</abstract><introduction /><corps /><conclusion /><discussion /><biblio>References
 Anne Abeillé, Lionel Clément, and François Toussenel.
 2003. Building a treebank for french. In Anne
 Abeillé, editor, Treebanks. Kluwer, Dordrecht.
