@@ -111,6 +111,40 @@ def references(liste):
                 
     return biblio[:-1]
 
+def recup_discussion(liste):
+    """
+        Recupere la discussion si elle existe
+    """
+    discussion=""
+    is_in_discussion=False
+    for i in range (0,len(liste)):
+        if is_in_discussion:
+            if (liste[i].startswith('Acknowledgments') or liste[i].startswith('References')):
+                break
+            else: 
+                discussion+=liste[i]
+        if(((liste[i-1]=="") and (i < len(liste) - 1 and liste[i+1]=="")) and ((liste[i].startswith('Discussion')) or (re.search('^\d*Discussion\w*',liste[i])!=None))):
+            is_in_discussion=True
+    return discussion
+
+def conclusion(liste):
+    conclu = ""
+    inConclusion = False
+    cpt = 0 #index liste
+    
+    for i in liste:
+        if inConclusion:  
+            if(i == "" and not ("Conclusion" in liste[cpt-1] or "CONCLUSIONS" in liste[cpt-1] or "Conclusions" in liste[cpt-1] or "CONCLUSION" in liste[cpt-1] and len(liste[cpt-1])<=14)): #si ligne vide et ligne precedente ne contenant pas conclusion
+                inConclusion = False
+            conclu += i + "\n" #ajouter ligne de conclusion
+               
+        if("Conclusion" in i or "CONCLUSIONS" in i or "Conclusions" in i or "CONCLUSION" in i and len(i) <=14): #si conclusion dans la ligne et que la ligne nest pas une phrase
+            conclu += "Conclusion\n"
+            inConclusion = True 
+        cpt += 1
+        
+    return conclu[:-1]
+
 def menu(directory):
     files = []
     files_dir = [i for i in os.listdir(directory) if os.path.isfile(os.path.join(directory, i)) and i.split(".")[-1] == "txt"]
@@ -147,7 +181,7 @@ if __name__ == "__main__":
                 path = os.path.join(directory, f)
                 lines = readLines(path)
                 print("Traitement :",f)
-                content = [".".join(f.split(".")[:-1]), recup_titre(lines), recup_auteur(lines), parseurAbstract(lines), "", "", "", "", references(lines)]
+                content = [".".join(f.split(".")[:-1]), recup_titre(lines), recup_auteur(lines), parseurAbstract(lines), "", "", conclusion(lines), recup_discussion(lines), references(lines)]
                 if type_export == "-t":
                     function_ecriture(content, os.path.join(directory, "output"))
                 else:
