@@ -113,7 +113,7 @@ def references(liste):
 
 def menu(directory):
     files = []
-    files_dir = os.listdir(directory)
+    files_dir = [i for i in os.listdir(directory) if os.path.isfile(os.path.join(directory, i)) and i.split(".")[-1] == "txt"]
     while True:
         print("\nFichiers :")
         for i, f in enumerate(files_dir):
@@ -145,11 +145,10 @@ if __name__ == "__main__":
             os.makedirs(os.path.join(directory, "output"))
             for f in menu(directory):
                 path = os.path.join(directory, f)
-                if os.path.isfile(path) and f.split(".")[-1] == "txt":
-                    lines = readLines(path)
-                    print("Traitement :",f)
-                    content = [".".join(f.split(".")[:-1]), recup_titre(lines), recup_auteur(lines), parseurAbstract(lines), "", "", "", "", references(lines)]
-                    if type_export == "-t":
-                        function_ecriture(content, os.path.join(directory, "output"))
-                    else:
-                        function_exportXML(content, os.path.join(directory, "output"))
+                lines = readLines(path)
+                print("Traitement :",f)
+                content = [".".join(f.split(".")[:-1]), recup_titre(lines), recup_auteur(lines), parseurAbstract(lines), "", "", "", "", references(lines)]
+                if type_export == "-t":
+                    function_ecriture(content, os.path.join(directory, "output"))
+                else:
+                    function_exportXML(content, os.path.join(directory, "output"))
