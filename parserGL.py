@@ -111,6 +111,18 @@ def references(liste):
                 
     return biblio[:-1]
 
+def parseurBody(liste):
+    """
+        Récupère le corps de l'article
+    """
+    
+    string_final = ""
+    for i in range (debut_it,(len(liste)-1)):
+        if(re.search('^Conclusions?',liste[i])!=None):
+            break
+        string_final += liste[i] +"\n"
+    return string_final[:-1]
+
 def recup_discussion(liste):
     """
         Recupere la discussion si elle existe
