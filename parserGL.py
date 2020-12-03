@@ -185,7 +185,7 @@ def conclusion(liste):
 
 def menu(directory):
     files = []
-    files_dir = [i for i in os.listdir(directory) if os.path.isfile(os.path.join(directory, i)) and i.split(".")[-1] == "txt"]
+    files_dir = [i for i in os.listdir(directory) if os.path.isfile(os.path.join(directory, i)) and i.split(".")[-1] == "pdf"]
     while True:
         print("\nFichiers :")
         for i, f in enumerate(files_dir):
@@ -216,7 +216,8 @@ if __name__ == "__main__":
                 shutil.rmtree(os.path.join(directory, "output"))
             os.makedirs(os.path.join(directory, "output"))
             for f in menu(directory):
-                path = os.path.join(directory, f)
+                os.system("pdftotext "+os.path.join(directory, f))
+                path = os.path.join(directory, f.split(".")[:-1]+".txt")
                 lines = readLines(path)
                 print("Traitement :",f)
                 content = [".".join(f.split(".")[:-1]), recup_titre(lines), recup_auteur(lines), parseurAbstract(lines), parseurIntro(lines), parseurBody(lines), 
