@@ -111,6 +111,26 @@ def references(liste):
                 
     return biblio[:-1]
 
+def parseurIntro(liste):
+    """
+        Récupère l'introduction de l'article
+    """
+    global debut_it       # indice de la dernière ligne lue
+    debut_it = -1
+    containIntro = False
+    intro = ""
+
+    for i, ligne in enumerate(liste):
+        if(containIntro):
+            if(re.search('^(2|II)$|^(2|II)[\.\-\s](\s?[A-Z])?[^a-z]',ligne)):
+                break
+            intro += ligne + "\n"
+        if(re.search('Introduction|INTRODUCTION|I ntroduction|I NTRODUCTION',ligne)!=None):
+            containIntro = True
+            intro += ligne + "\n"
+        debut_it += 1          # à la fin le curseur se trouvera sur la première ligne du corps
+    return intro[:-1]
+
 def parseurBody(liste):
     """
         Récupère le corps de l'article
@@ -193,7 +213,8 @@ if __name__ == "__main__":
                 path = os.path.join(directory, f)
                 lines = readLines(path)
                 print("Traitement :",f)
-                content = [".".join(f.split(".")[:-1]), recup_titre(lines), recup_auteur(lines), parseurAbstract(lines), "", "", conclusion(lines), recup_discussion(lines), references(lines)]
+                content = [".".join(f.split(".")[:-1]), recup_titre(lines), recup_auteur(lines), parseurAbstract(lines), parseurIntro(lines), parseurBody(lines), 
+                    conclusion(lines), recup_discussion(lines), references(lines)]
                 if type_export == "-t":
                     function_ecriture(content, os.path.join(directory, "output"))
                 else:
