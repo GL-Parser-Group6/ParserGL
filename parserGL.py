@@ -59,7 +59,7 @@ def recup_titre(liste):
         debut_it += 1
     return title[:-1]
 
-def parseurAbstract(List):
+def parseurAbstract(liste):
     """
         Récupère le résumé de l'article
     """
@@ -68,9 +68,9 @@ def parseurAbstract(List):
     containAbstract = False
     abstract = ""
 
-    for x in List:
+    for x in liste:
         if(containAbstract):
-            if x == '1' or x.startswith('Introduction'):
+            if (re.search('^(1|I)$|^(1|I)[\.\-\s](\s?[A-Z])?[^a-z]', x)) or re.search('Introduction|INTRODUCTION|I ntroduction|I NTRODUCTION',x)!=None:
                 break
             abstract += x + "\n"
         else:
@@ -135,10 +135,17 @@ def parseurBody(liste):
     """
         Récupère le corps de l'article
     """
+    global debut_it
     
     string_final = ""
-    for i in range (debut_it,(len(liste)-1)):
-        if(re.search('^Conclusions?',liste[i])!=None):
+    if(debut_it == len(liste)-1):
+        for i in range(len(liste)):
+            if (re.search('^(1|I)$|^(1|I)[\.\-\s](\s?[A-Z])?[^a-z]', liste[i])):
+                debut_it = i
+                break
+
+    for i in range (debut_it, len(liste)):
+        if("Conclusion" in liste[i] or "CONCLUSIONS" in liste[i] or "Conclusions" in liste[i] or "CONCLUSION" in liste[i] and len(liste[i]) <=15) or liste[i].startswith('Acknowledgments') or ("References" in liste[i] or "REFERENCES" in liste[i] or "R EFERENCES" in liste[i] and len(liste[i]) <=11) or (((liste[i-1]=="") and (i < len(liste) - 1 and liste[i+1]=="")) and ((liste[i].startswith('Discussion')) or (re.search('^\d*Discussion\w*',liste[i])!=None))):
             break
         string_final += liste[i] +"\n"
     return string_final[:-1]
@@ -163,14 +170,13 @@ def conclusion(liste):
     conclu = ""
     inConclusion = False
     cpt = 0 #index liste
-    
     for i in liste:
         if inConclusion:  
             if(i == "" and not ("Conclusion" in liste[cpt-1] or "CONCLUSIONS" in liste[cpt-1] or "Conclusions" in liste[cpt-1] or "CONCLUSION" in liste[cpt-1] and len(liste[cpt-1])<=14)): #si ligne vide et ligne precedente ne contenant pas conclusion
                 inConclusion = False
             conclu += i + "\n" #ajouter ligne de conclusion
                
-        if("Conclusion" in i or "CONCLUSIONS" in i or "Conclusions" in i or "CONCLUSION" in i and len(i) <=14): #si conclusion dans la ligne et que la ligne nest pas une phrase
+        if("Conclusion" in i or "CONCLUSIONS" in i or "Conclusions" in i or "CONCLUSION" in i and len(i) <=15): #si conclusion dans la ligne et que la ligne nest pas une phrase
             conclu += "Conclusion\n"
             inConclusion = True 
         cpt += 1
