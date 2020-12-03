@@ -216,10 +216,10 @@ if __name__ == "__main__":
                 shutil.rmtree(os.path.join(directory, "output"))
             os.makedirs(os.path.join(directory, "output"))
             for f in menu(directory):
-                os.system("pdftotext "+os.path.join(directory, f))
-                path = os.path.join(directory, f.split(".")[:-1]+".txt")
-                lines = readLines(path)
                 print("Traitement :",f)
+                os.system("pdftotext \""+os.path.join(directory, f)+"\"")
+                path = os.path.join(directory, ".".join(f.split(".")[:-1])+".txt")
+                lines = readLines(path)
                 content = [".".join(f.split(".")[:-1]), recup_titre(lines), recup_auteur(lines), parseurAbstract(lines), parseurIntro(lines), parseurBody(lines), 
                     conclusion(lines), recup_discussion(lines), references(lines)]
                 if type_export == "-t":
